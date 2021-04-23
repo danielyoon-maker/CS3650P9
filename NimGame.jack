@@ -1,0 +1,114 @@
+class NimGame {
+    field int stack1Total;
+    field int stack2Total;
+    field int stack3Total;
+    field int stackChoice;
+    field int stackRemove;
+    field int currentPlayer;
+    field int gameStatus; 
+
+    constructor NimGame new() {
+        let currentPlayer = 0;
+        do Output.printString("WELCOME TO NIM GAME");
+        do Sys.wait(1000);
+        do resetScreen();
+        let stack1Total = Keyboard.readInt("ENTER SIZE OF HEAP 1: ");
+        do resetScreen();
+        let stack2Total = Keyboard.readInt("ENTER SIZE OF HEAP 2: ");
+        do resetScreen();
+        let stack3Total = Keyboard.readInt("ENTER SIZE OF HEAP 3: ");
+        do resetScreen();
+        let gameStatus = 0;
+        return this;
+    }
+
+    method void run() {
+        
+        do printStacks();
+        do printPlayer();
+        do promptStack();
+        do promptQuantity();
+        do resetScreen();
+        do updateStacks();
+        do gameDone();
+        if (gameStatus = 0) {
+            do run();
+        }
+        else {
+            do Output.printString("GAME OVER! ");
+            do printPlayer();
+            do Output.printString("WINS!");
+        }
+        return;
+    }
+
+    method void printStacks() {
+        do Output.printString("Stack 1 currently has: ");
+        do Output.printInt(stack1Total);
+        do Output.println();
+        do Output.printString("Stack 2 currently has: ");
+        do Output.printInt(stack2Total);
+        do Output.println();
+        do Output.printString("Stack 3 currently has: ");
+        do Output.printInt(stack3Total);
+        do Output.println();
+        do Output.println();
+        return;
+    }
+
+    method void resetScreen() {
+        do Screen.clearScreen();
+        do Output.moveCursor(0,0);
+        return;
+    }
+
+    method void promptStack() {
+        let stackChoice = Keyboard.readInt("REMOVE FROM HEAP 1 2 OR 3: ");
+        do Output.println();
+        return;
+    }
+
+    method void promptQuantity() {
+        let stackRemove = Keyboard.readInt("REMOVE HOW MANY: ");
+        do Output.println();
+        return;
+    }
+
+    method void updateStacks() {
+        if (stackChoice = 1) {
+            let stack1Total = stack1Total - stackRemove;
+        }
+        if (stackChoice = 2) {
+            let stack2Total = stack2Total - stackRemove;
+        }
+        if (stackChoice = 3) {
+            let stack3Total = stack3Total - stackRemove;
+        }
+        return;
+    }
+
+    method void printPlayer() {
+        do Output.printString("PLAYER ");
+        do Output.printInt(currentPlayer + 1);
+        do Output.printString(" ");
+
+        let currentPlayer = 1 - currentPlayer;
+
+        return;
+    }
+
+    method void gameDone() {
+        var int total;
+        let total = stack1Total + stack2Total + stack3Total;
+        if (total > 0) {
+            return;
+        }
+        let gameStatus = -1;
+        return;
+    }
+
+    method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+}
