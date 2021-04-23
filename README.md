@@ -1,0 +1,2 @@
+# CS3650P9
+Basic NIM GAME
